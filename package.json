@@ -1,0 +1,7 @@
+{
+  "name": "fetchUtils",
+  "jspm": {
+  	"format": "es6",
+  	"registry": "jspm"
+  }
+}
