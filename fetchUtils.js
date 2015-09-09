@@ -1,5 +1,5 @@
 let fetchUtils = function() {
-	
+    
     const MAX_WAITING_TIME = 5000;
 
     function processStatus(response) {
@@ -48,12 +48,15 @@ let fetchUtils = function() {
     };
 
     function getJSON(params) {
+        params.method ? params.method : 'get';
+        params.accepts ? params.accepts : 'application/json';
+
         var wrappedFetch = getWrappedFetch(
             params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
             {
-                method: 'get',// optional, "GET" is default value
+                method: params.method,// optional, "GET" is default value
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': params.accepts
                 }
             }
         );
@@ -73,13 +76,14 @@ let fetchUtils = function() {
 
     function getHTML(params) {
         params.method ? params.method : 'get';
+        params.accepts ? params.accepts : 'text/html';
 
         var wrappedFetch = getWrappedFetch(
             params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
             {
                 method: params.method,// optional, "GET" is default value
                 headers: {
-                    'Accept': 'text/html'
+                    'Accept': params.accepts
                 }
             });
 
