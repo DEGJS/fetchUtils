@@ -14,6 +14,10 @@ let fetchUtils = function() {
         return response.json();
     };
 
+    var parseHtml = function(response) {
+        return response.text();
+    };
+
     function getWrappedPromise() {
         var wrappedPromise = {},
         promise = new Promise(function (resolve, reject) {
@@ -67,8 +71,34 @@ let fetchUtils = function() {
             .then(parseJson);
     };
 
+    function getHTML(params) {
+        params.method ? params.method : 'get';
+
+        var wrappedFetch = getWrappedFetch(
+            params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
+            {
+                method: params.method,// optional, "GET" is default value
+                headers: {
+                    'Accept': 'text/html'
+                }
+            });
+
+        var timeoutId = setTimeout(function () {
+            wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));// reject on timeout
+        }, MAX_WAITING_TIME);
+
+        return wrappedFetch.promise// getting clear promise from wrapped
+            .then(function (response) {
+                clearTimeout(timeoutId);
+                return response;
+            })
+            .then(processStatus)
+            .then(parseHtml);
+    };
+
     return {
-        getJSON: getJSON
+        getJSON: getJSON,
+        getHTML: getHTML
     };
 
 };

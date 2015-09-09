@@ -14,5 +14,9 @@ fetchUtils.getJSON({
 });
 ```
 
+## Available Methods
+* **getJSON():** returns JSON
+* **getHTML():** returns HTML
+
 ## Revision History
 * **1.0.0:** First commit.
