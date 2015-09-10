@@ -49,12 +49,14 @@ let fetchUtils = function() {
 
     function getJSON(params) {
         params.method ? params.method : 'get';
+        params.body ? params.body : '';
         params.accepts ? params.accepts : 'application/json';
 
         var wrappedFetch = getWrappedFetch(
             params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
             {
                 method: params.method,// optional, "GET" is default value
+                body: params.body,
                 headers: {
                     'Accept': params.accepts
                 }
