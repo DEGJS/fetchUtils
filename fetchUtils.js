@@ -48,9 +48,9 @@ let fetchUtils = function() {
     };
 
     function getJSON(params) {
-        params.method ? params.method : 'get';
-        params.body ? params.body : '';
-        params.accepts ? params.accepts : 'application/json';
+        params.method = params.method ? params.method : 'get';
+        params.body = params.body ? params.body : '';
+        params.accepts = params.accepts ? params.accepts : 'application/json';
 
         var wrappedFetch = getWrappedFetch(
             params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
@@ -77,8 +77,8 @@ let fetchUtils = function() {
     };
 
     function getHTML(params) {
-        params.method ? params.method : 'get';
-        params.accepts ? params.accepts : 'text/html';
+        params.method = params.method ? params.method : 'get';
+        params.accepts = params.accepts ? params.accepts : 'text/html';
 
         var wrappedFetch = getWrappedFetch(
             params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,

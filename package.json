@@ -1,5 +1,7 @@
 {
   "name": "fetchUtils",
+  "version": "1.0.1",
+  "main": "fetchUtils.js",
   "jspm": {
   	"format": "es6",
   	"registry": "jspm"
