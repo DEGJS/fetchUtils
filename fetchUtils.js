@@ -48,32 +48,30 @@ let fetchUtils = function() {
     };
 
     function getJSON(params) {
-        params.method = params.method ? params.method : 'get';
-        params.body = params.body ? params.body : '';
-        params.accepts = params.accepts ? params.accepts : 'application/json';
+       let options = {
+           method: params.method ? params.method : 'get',
+           headers: {
+               'Accept': params.accepts ? params.accepts : 'application/json'
+           }
+       };
+       if (params.method.toLowerCase() !== 'get') {
+           options.body = params.body ? params.body : '';
+       }
+       var wrappedFetch = getWrappedFetch(
+           params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url, options
+       );
 
-        var wrappedFetch = getWrappedFetch(
-            params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
-            {
-                method: params.method,// optional, "GET" is default value
-                body: params.body,
-                headers: {
-                    'Accept': params.accepts
-                }
-            }
-        );
+       var timeoutId = setTimeout(function () {
+           wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));// reject on timeout
+       }, MAX_WAITING_TIME);
 
-        var timeoutId = setTimeout(function () {
-            wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));// reject on timeout
-        }, MAX_WAITING_TIME);
-
-        return wrappedFetch.promise// getting clear promise from wrapped
-            .then(function (response) {
-                clearTimeout(timeoutId);
-                return response;
-            })
-            .then(processStatus)
-            .then(parseJson);
+       return wrappedFetch.promise// getting clear promise from wrapped
+           .then(function (response) {
+               clearTimeout(timeoutId);
+               return response;
+           })
+           .then(processStatus)
+           .then(parseJson);
     };
 
     function getHTML(params) {
