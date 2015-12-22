@@ -20,3 +20,5 @@ fetchUtils.getJSON({
 
 ## Revision History
 * **1.0.0:** First commit.
+* **1.0.1:** Fixed bug with default param settings
+* **1.0.2:** Removed body param on GET method calls
