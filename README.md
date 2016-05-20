@@ -4,6 +4,7 @@ A utility library for using the new Fetch ajax API.
 ## Sample Usage
 ``` javascript
 fetchUtils.getJSON({
+	'maxWaitingTime': 10000,
 	'url': '',
 	'method': 'POST',
 	'body': ''
