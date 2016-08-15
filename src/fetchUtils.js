@@ -1,9 +1,11 @@
 let fetchUtils = function() {
 
-    const MAX_WAITING_TIME = 5000;
+    const TIMEOUT = 10000;
 
     function processStatus(response) {
-        if (response.status === 200 || response.status === 0) {
+        if (response.status === 200 || 
+            response.status === 201 ||
+            response.status === 0) {
             return Promise.resolve(response)
         } else {
             return Promise.reject(new Error(response.statusText))
@@ -14,7 +16,7 @@ let fetchUtils = function() {
         return response.json();
     };
 
-    let parseHtml = function(response) {
+    function parseHtml(response) {
         return response.text();
     };
 
@@ -30,63 +32,58 @@ let fetchUtils = function() {
         return wrappedPromise;
     };
 
-function getWrappedFetch() {
-    let wrappedPromise = getWrappedPromise(),
-        args = Array.prototype.slice.call(arguments);
-    fetch.apply(null, args).then(function(response) {
-        wrappedPromise.resolve(response);
-    }, function(error) {
-        wrappedPromise.reject(error);
-    }).catch(function (error) {
-        wrappedPromise.catch(error);
-    });
-    return wrappedPromise;
-};
+    function invokeFetch() {
+        let wrappedPromise = getWrappedPromise(),
+            args = Array.prototype.slice.call(arguments);
+        fetch.apply(null, args).then(function(response) {
+            wrappedPromise.resolve(response);
+        }, function(error) {
+            wrappedPromise.reject(error);
+        }).catch(function (error) {
+            wrappedPromise.catch(error);
+        });
+        return wrappedPromise;
+    };
 
-    function getJSON(params) {
-        let options = {
-            maxWaitingTime: params.maxWaitingTime ? params.maxWaitingTime : MAX_WAITING_TIME,
-            method: params.method ? params.method : 'get',
-            headers: {
-                'Accept': params.accepts ? params.accepts : 'application/json'
-            }
+    function getJSON(url, fetchParams = {}, options = {}) {
+        
+        let defaultHeaders = {
+            "Accept": 'application/json'
         };
-        if (params.method.toLowerCase() !== 'get') {
-            options.body = params.body ? params.body : '';
-        }
-        let wrappedFetch = getWrappedFetch(
-            params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url, options
-        );
+        
+        fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
+
+        return getData(url, fetchParams, options).then(parseJson);
+    };
+
+    function getHTML(url, fetchParams = {}, options = {}) {
+        
+        let defaultHeaders = {
+            "Accept": 'text/html'
+        };
+
+        fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
+
+        return getData(url, fetchParams, options).then(parseHtml);
+    };
+
+    function getData(url, fetchParams, options) {
+        let timeout = options.timeout ? options.timeout : TIMEOUT;
+        url = options.cacheBusting ? url + '?' + new Date().getTime() : url;
+
+        fetchParams.method = fetchParams.method ? fetchParams.method : 'get';
+
+        let wrappedFetch = invokeFetch(url, fetchParams);
+
         let timeoutId = setTimeout(function () {
             wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));
-        }, options.maxWaitingTime);
+        }, timeout);
+
         return wrappedFetch.promise.then(function(response) {
             clearTimeout(timeoutId);
             return response;
-        }).then(processStatus).then(parseJson);
-    };
-
-    function getHTML(params) {
-        params.maxWaitingTime ? params.maxWaitingTime : MAX_WAITING_TIME;
-        params.method = params.method ? params.method : 'get';
-        params.accepts = params.accepts ? params.accepts : 'text/html';
-
-        let wrappedFetch = getWrappedFetch(
-            params.cacheBusting ? params.url + '?' + new Date().getTime() : params.url,
-            {
-                method: params.method,// optional, "GET" is default value
-                headers: {
-                    'Accept': params.accepts
-                }
-            });
-        let timeoutId = setTimeout(function() {
-            wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));// reject on timeout
-        }, params.maxWaitingTime);
-        return wrappedFetch.promise.then(function(response) {
-            clearTimeout(timeoutId);
-            return response;
-        }).then(processStatus).then(parseHtml);
-    };
+        }).then(processStatus);
+    }
 
     return {
         getJSON: getJSON,
