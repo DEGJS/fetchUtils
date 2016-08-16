@@ -6,3 +6,8 @@ env:
   global:
   - ENCRYPTION_LABEL: "40aadc6e2684"
   - COMMIT_AUTHOR_EMAIL: "heaper@gmail.com"
+  - secure: "Prp8+SCuik3ioI9XqSjmxjNhXXyQHi1lhuHzcGOs13h+ROz3fgX63l+ew+jZCq7wiIwcgyZv7wMTYAd9ud8N1oAu45SP3Ha+JlevrfqaFxvuXBAknv0IXEvTHiWm14qpJvnKnH5lIZJQX6frsXfTVXd9+7frqMKxIXNgx3YXTZ/V2cnHTGBkM3vJ79XSFyGZZLzw3XJ37Phfaod8mID4afxErCk6NZjzt4kH+gJ1REQyBN+KiwWeqJ0qbm+HsE95uGXXBXSTclJdGnFUm+aCyV7QTCvrbKSP5V9gLAoHk1FWQ3/UsS0Vk6Ieprf0cBckjPLdhBYRhy4IpGQ8QSljULhoeQ8xt27/fzL7RdGs023cb/oIx5TzbNGxDmIOUQP8CazO8HzeNWdpybwdszpMH7HliiG2a4fcG0Xf2NYFWbtoheXdPgwL6ASlABdJ5OucxKGBrsvCO638pPfqOihBBEvHWgMz2a3tSkhV/jo6W4Ce3wxVcPXXFBCH3f1WQpcgkvVqyrB/9j5DqTT5a542npYTO6Ch0rqPTTgXpn4pae6VpnaTHKfBA/6LNHFjeXoKxKZHBLf+1qY8NQa5XlQl79KOvlnb7TeWjd/imr7aUU1xnCeSYtpV5DWxz1Qft/218oJSJdbezXleZxd1MQzy6norwld0QNWQrrIk1fPasCA="
+
+before_install:
+- npm install -g jspm
+- jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN  
