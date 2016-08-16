@@ -1,0 +1,7 @@
+language: generic # don't install any environment
+
+script: bash ./deploy-demo.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "40aadc6e2684"
+  - COMMIT_AUTHOR_EMAIL: "heaper@gmail.com"

@@ -24,6 +24,10 @@
     "url": "https://github.com/DEGJS/fetchUtils.git"
   },
   "bugs": "https://github.com/DEGJS/fetchUtils/issues",
+  "scripts": {
+    "build-demo": "cd demo/js && jspm install github:DEGJS/fetchUtils && jspm bundle-sfx main main.js --skip-source-maps",
+    "deploy-demo": "npm run build-demo && rsync -av --exclude='js/src' demo/ out"
+  },
   "devDependencies": {
     "jspm": "^0.16.42"
   },
@@ -32,14 +36,7 @@
     "main": "fetchUtils.js",
     "format": "es6",
     "directories": {
-      "baseURL": "demo/js",
       "lib": "src"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4",
-      "jspm": "^0.16.42"
     }
   }
 }
