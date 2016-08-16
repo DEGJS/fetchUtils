@@ -26,7 +26,7 @@
   "bugs": "https://github.com/DEGJS/fetchUtils/issues",
   "scripts": {
     "build-demo": "cd demo/js && jspm install github:DEGJS/fetchUtils && jspm bundle-sfx main main.js --skip-source-maps",
-    "deploy-demo": "npm run build-demo && rsync -av --exclude='js/src' demo/ out"
+    "deploy-demo": "./deploy-demo.sh"
   },
   "devDependencies": {
     "jspm": "^0.16.42"

@@ -1,6 +1,7 @@
-language: generic # don't install any environment
-
-script: bash ./deploy-demo.sh
+language: node_js
+node_js:
+- stable
+script: npm run-script deploy-demo
 env:
   global:
   - ENCRYPTION_LABEL: "40aadc6e2684"
