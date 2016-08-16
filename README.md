@@ -3,10 +3,13 @@ FetchUtils is a utility module that adds the following features to the Javascrip
 + Request timeouts, which the Fetch API currently lacks
 + Helper methods for requesting and parsing a JSON- or HTML-encoded response data from an endpoint 
 
+## Demo
+You can view a demo of fetchUtils [here](http://degjs.github.io/fetchUtils/).
+
 ## Install
 FetchUtils is an ES6 module. Consequently, you'll need an ES6 transpiler ([Babel](https://babeljs.io) is a nice one) and a module loader ([SystemJS](https://github.com/systemjs/systemjs) will do the job) as part of your Javascript workflow.
 
-If you're already using the [JSPM package manager](http://jspm.io) for your project, you can install FetchUtils with the following command:
+If you're already using the [JSPM package manager](http://jspm.io) for your project, you can install fetchUtils with the following command:
 
 ```
 $ jspm install github:DEGJS/fetchUtils
