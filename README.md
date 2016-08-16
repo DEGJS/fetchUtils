@@ -45,11 +45,11 @@ fetchUtils.getJSON('/endpoint-url', fetchParams, options)
 
 ### .getHTML(url [, fetchParams [, options]])
 Returns: `Promise`   
-Perform a request to an endpoint that returns HTML-encoded data.
+Perform a request to an endpoint that returns HTML-encoded data. Sets the `Accept` option on request header to `text/html`.
 
 ### .getJSON(url [, fetchParams [, options]])
 Returns: `Promise`   
-Perform a request to an endpoint that returns JSON-encoded data.
+Perform a request to an endpoint that returns JSON-encoded data. Sets the `Accept` option on request header to `application/json`.
 
 The parameters for the `.getHTML()` and `.getJSON()` methods are outlined below:
 
