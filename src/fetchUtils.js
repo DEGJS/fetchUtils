@@ -45,26 +45,34 @@ let fetchUtils = function() {
         return wrappedPromise;
     };
 
-    function getJSON(url, fetchParams = {}, options = {}) {
-        
+    function fetch(url, fetchParams = {}, options = {}) {
         let defaultHeaders = {
             "Accept": 'application/json'
         };
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(parseJson);
+        return getData(url, fetchParams, options);
+    };
+
+    function getJSON(url, fetchParams = {}, options = {}) {
+        let defaultHeaders = {
+            "Accept": 'application/json'
+        };
+        
+        fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
+
+        return getData(url, fetchParams, options).then(processStatus).then(response);
     };
 
     function getHTML(url, fetchParams = {}, options = {}) {
-        
         let defaultHeaders = {
             "Accept": 'text/html'
         };
 
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(parseHtml);
+        return getData(url, fetchParams, options).then(processStatus).then(parseHtml);
     };
 
     function getData(url, fetchParams, options) {
@@ -82,12 +90,13 @@ let fetchUtils = function() {
         return wrappedFetch.promise.then(function(response) {
             clearTimeout(timeoutId);
             return response;
-        }).then(processStatus);
+        });
     }
 
     return {
         getJSON: getJSON,
-        getHTML: getHTML
+        getHTML: getHTML,
+        fetch: fetch
     };
 
 };
