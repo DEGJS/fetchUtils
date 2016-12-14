@@ -62,7 +62,7 @@ let fetchUtils = function() {
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(processStatus).then(response);
+        return getData(url, fetchParams, options).then(processStatus).then(parseJson);
     };
 
     function getHTML(url, fetchParams = {}, options = {}) {
