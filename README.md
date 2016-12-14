@@ -54,7 +54,11 @@ Perform a request to an endpoint that returns HTML-encoded data. Sets the `Accep
 Returns: `Promise`   
 Perform a request to an endpoint that returns JSON-encoded data. Sets the `Accept` option on request header to `application/json`.
 
-The parameters for the `.getHTML()` and `.getJSON()` methods are outlined below:
+### .fetch(url [, fetchParams [, options]])
+Returns: `Promise`   
+Perform a request to an endpoint that returns the full, unparsed endpoint response.
+
+The parameters for the `.getHTML()`, `.getJSON()` and `.fetch()` methods are outlined below:
 
 #### url
 Type: `String`   
