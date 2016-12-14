@@ -45,7 +45,7 @@ let fetchUtils = function() {
         return wrappedPromise;
     };
 
-    function fetch(url, fetchParams = {}, options = {}) {
+    function genericFetch(url, fetchParams = {}, options = {}) {
         let defaultHeaders = {
             "Accept": 'application/json'
         };
@@ -96,7 +96,7 @@ let fetchUtils = function() {
     return {
         getJSON: getJSON,
         getHTML: getHTML,
-        fetch: fetch
+        fetch: genericFetch
     };
 
 };
