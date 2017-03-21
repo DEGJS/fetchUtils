@@ -84,7 +84,7 @@ let fetchUtils = function() {
         let wrappedFetch = invokeFetch(url, fetchParams);
 
         let timeoutId = setTimeout(function () {
-            wrappedFetch.reject(new Error('Load timeout for resource: ' + params.url));
+            wrappedFetch.reject(new Error('Load timeout for resource: ' + url));
         }, timeout);
 
         return wrappedFetch.promise.then(function(response) {
