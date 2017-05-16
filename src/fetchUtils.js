@@ -2,6 +2,8 @@ let fetchUtils = function() {
 
     const TIMEOUT = 10000;
 
+    let callback = null;
+
     function processStatus(response) {
         if (response.status === 200 || 
             response.status === 201 ||
@@ -52,7 +54,7 @@ let fetchUtils = function() {
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options);
+        return getData(url, fetchParams, options).then(fireCallback);
     };
 
     function getJSON(url, fetchParams = {}, options = {}) {
@@ -62,7 +64,7 @@ let fetchUtils = function() {
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(processStatus).then(parseJson);
+        return getData(url, fetchParams, options).then(fireCallback).then(processStatus).then(parseJson);
     };
 
     function getHTML(url, fetchParams = {}, options = {}) {
@@ -72,7 +74,7 @@ let fetchUtils = function() {
 
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(processStatus).then(parseHtml);
+        return getData(url, fetchParams, options).then(fireCallback).then(processStatus).then(parseHtml);
     };
 
     function getData(url, fetchParams, options) {
@@ -93,10 +95,23 @@ let fetchUtils = function() {
         });
     }
 
+    function fireCallback(response) {
+        if (callback !== null) {
+            callback(response);
+        }
+    }
+
+    function setCallback(callbackFn = null) {
+        if (callbackFn) {
+            callback = callbackFn;
+        }
+    }
+
     return {
         getJSON: getJSON,
         getHTML: getHTML,
-        fetch: genericFetch
+        fetch: genericFetch,
+        setCallback: setCallback
     };
 
 };
