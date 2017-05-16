@@ -5,6 +5,7 @@ let fetchUtils = function() {
     let callback = null;
 
     function processStatus(response) {
+        fireCallbackFn(response);
         if (response.status === 200 || 
             response.status === 201 ||
             response.status === 0) {
@@ -54,7 +55,7 @@ let fetchUtils = function() {
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(fireCallback);
+        return getData(url, fetchParams, options, true);
     };
 
     function getJSON(url, fetchParams = {}, options = {}) {
@@ -64,7 +65,7 @@ let fetchUtils = function() {
         
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(fireCallback).then(processStatus).then(parseJson);
+        return getData(url, fetchParams, options).then(processStatus).then(parseJson);
     };
 
     function getHTML(url, fetchParams = {}, options = {}) {
@@ -74,10 +75,10 @@ let fetchUtils = function() {
 
         fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-        return getData(url, fetchParams, options).then(fireCallback).then(processStatus).then(parseHtml);
+        return getData(url, fetchParams, options).then(processStatus).then(parseHtml);
     };
 
-    function getData(url, fetchParams, options) {
+    function getData(url, fetchParams, options, fireCallback = false) {
         let timeout = options.timeout ? options.timeout : TIMEOUT;
         url = options.cacheBusting ? url + '?' + new Date().getTime() : url;
 
@@ -91,11 +92,14 @@ let fetchUtils = function() {
 
         return wrappedFetch.promise.then(function(response) {
             clearTimeout(timeoutId);
+            if (fireCallback === true) {
+                fireCallbackFn(response);
+            }
             return response;
         });
     }
 
-    function fireCallback(response) {
+    function fireCallbackFn(response) {
         if (callback !== null) {
             callback(response);
         }
