@@ -76,6 +76,13 @@ Additional options that fall outside of the Fetch API. This parameter is optiona
 Type: `Number`   
 The number of milliseconds that the request should wait before timing out. The default timeout value is 10,000 millseconds (10 seconds). 
 
+### .setCallback(functionName)
+Define a callback function that will be executed on fetch success. This is not recommended in most scenarios (use `.then()` and `.catch()` from the returned promise instead), but may be useful in specific situations.
+
+### .setOptions(options)
+Override default plugin options, such as `timeout` and `cachebusting`. Must be called before any of the fetch methods above are called.
+
+
 ## Browser Support
 FetchUtils depends on the following browser APIs:
 + [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch)

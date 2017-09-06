@@ -1,8 +1,13 @@
 let fetchUtils = function() {
 
-    const TIMEOUT = 10000;
-
+    const defaults = {
+        timeout: 10000,
+        cachebusting: false
+    };
+    let settings = {};
     let callback = null;
+
+    setOptions(settings);
 
     function processStatus(response) {
         fireCallbackFn(response);
@@ -78,9 +83,9 @@ let fetchUtils = function() {
         return getData(url, fetchParams, options).then(processStatus).then(parseHtml);
     };
 
-    function getData(url, fetchParams, options, fireCallback = false) {
-        let timeout = options.timeout ? options.timeout : TIMEOUT;
-        url = options.cacheBusting ? url + '?' + new Date().getTime() : url;
+    function getData(url, fetchParams, options = {}, fireCallback = false) {
+        settings = Object.assign({}, settings, options);
+        url = settings.cacheBusting === true ? url + '?' + new Date().getTime() : url;
 
         fetchParams.method = fetchParams.method ? fetchParams.method : 'get';
 
@@ -88,7 +93,7 @@ let fetchUtils = function() {
 
         let timeoutId = setTimeout(function () {
             wrappedFetch.reject(new Error('Load timeout for resource: ' + url));
-        }, timeout);
+        }, settings.timeout);
 
         return wrappedFetch.promise.then(function(response) {
             clearTimeout(timeoutId);
@@ -111,11 +116,18 @@ let fetchUtils = function() {
         }
     }
 
+    function setOptions(options = null) {
+        if (options !== null && typeof options === 'object') {
+            settings = Object.assign({}, defaults, options);
+        }
+    }
+
     return {
         getJSON: getJSON,
         getHTML: getHTML,
         fetch: genericFetch,
-        setCallback: setCallback
+        setCallback: setCallback,
+        setOptions: setOptions
     };
 
 };
