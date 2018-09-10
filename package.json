@@ -31,13 +31,5 @@
   "publishConfig": { "access": "public" },
   "devDependencies": {
     "jspm": "^0.16.42"
-  },
-  "jspm": {
-    "registry": "jspm",
-    "main": "fetchUtils.js",
-    "format": "es6",
-    "directories": {
-      "lib": "src"
-    }
   }
 }
