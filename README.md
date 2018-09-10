@@ -9,8 +9,6 @@ FetchUtils is a utility module that adds the following features to the Javascrip
 You can view a demo of fetchUtils [here](http://degjs.github.io/fetchUtils/).
 
 ## Install
-FetchUtils is an ES6 module. Consequently, you'll need an ES6 transpiler ([Babel](https://babeljs.io) is a nice one) and a module loader ([SystemJS](https://github.com/systemjs/systemjs) will do the job) as part of your Javascript workflow.
-
 As of version 3.0.0, fetchUtils is on NPM and can be installed with 
 ```
 npm install @degjs/fetch-utils
