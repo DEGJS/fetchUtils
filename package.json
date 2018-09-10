@@ -25,11 +25,8 @@
   },
   "bugs": "https://github.com/DEGJS/fetchUtils/issues",
   "scripts": {
-    "build-demo": "cd demo/js && jspm install github:DEGJS/fetchUtils && jspm bundle-sfx main main.js --skip-source-maps",
+    "build-demo": "cd demo/js && rollup ../../src/fetchUtils.js --file src/main.js --format iife --output.name main.js",
     "deploy-demo": "./deploy-demo.sh"
   },
-  "publishConfig": { "access": "public" },
-  "devDependencies": {
-    "jspm": "^0.16.42"
-  }
+  "publishConfig": { "access": "public" }
 }

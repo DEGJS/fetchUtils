@@ -1,69 +1,135 @@
-import fetchUtils from "DEGJS/fetchUtils";
+this.main = this.main || {};
+this.main.js = (function () {
+    'use strict';
 
-let main = function() {
+    let fetchUtils = function() {
 
-	function init() {
-		let pageEl = document.querySelector('.page');
+        const defaults = {
+            timeout: 10000,
+            cachebusting: false
+        };
+        let settings = {};
+        let callback = null;
 
-		pageEl.addEventListener('click', onClick);
-	}
+        setOptions(settings);
 
-	function onClick(e) {
-		if(e.target.matches('.demo__button')) {
-			let demoEl = e.target.closest('.demo');
-			if(demoEl) {
-				e.preventDefault();
-				submitRequest(demoEl);
-			}
-		}
-	}
+        function processStatus(response) {
+            fireCallbackFn(response);
+            if (response.status === 200 || 
+                response.status === 201 ||
+                response.status === 0) {
+                return Promise.resolve(response)
+            } else {
+                return Promise.reject(new Error(response.statusText))
+            }
+        }
+        function parseJson(response) {
+            return response.json();
+        }
+        function parseHtml(response) {
+            return response.text();
+        }
+        function getWrappedPromise() {
+            let wrappedPromise = {},
+                promise = new Promise(function (resolve, reject) {
+                    wrappedPromise.resolve = resolve;
+                    wrappedPromise.reject = reject;
+                });
+            wrappedPromise.then = promise.then.bind(promise);
+            wrappedPromise.catch = promise.catch.bind(promise);
+            wrappedPromise.promise = promise;
+            return wrappedPromise;
+        }
+        function invokeFetch() {
+            let wrappedPromise = getWrappedPromise(),
+                args = Array.prototype.slice.call(arguments);
+            fetch.apply(null, args).then(function(response) {
+                wrappedPromise.resolve(response);
+            }, function(error) {
+                wrappedPromise.reject(error);
+            }).catch(function (error) {
+                wrappedPromise.catch(error);
+            });
+            return wrappedPromise;
+        }
+        function genericFetch(url, fetchParams = {}, options = {}) {
+            let defaultHeaders = {
+                "Accept": 'application/json'
+            };
+            
+            fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-	function submitRequest(demoEl) {
+            return getData(url, fetchParams, options, true);
+        }
+        function getJSON(url, fetchParams = {}, options = {}) {
+            let defaultHeaders = {
+                "Accept": 'application/json'
+            };
+            
+            fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-		let url = demoEl.getAttribute('data-url');
-		let type = demoEl.getAttribute('data-type');
+            return getData(url, fetchParams, options).then(processStatus).then(parseJson);
+        }
+        function getHTML(url, fetchParams = {}, options = {}) {
+            let defaultHeaders = {
+                "Accept": 'text/html'
+            };
 
-		let fetchParams = {
-			method: demoEl.getAttribute('data-method')
-		};
+            fetchParams.headers = Object.assign({}, defaultHeaders, fetchParams.headers);
 
-		let fetchPromise;
+            return getData(url, fetchParams, options).then(processStatus).then(parseHtml);
+        }
+        function getData(url, fetchParams, options = {}, fireCallback = false) {
+            settings = Object.assign({}, settings, options);
+            url = settings.cacheBusting === true ? url + '?' + new Date().getTime() : url;
 
-		switch(type) {
-			case "JSON":
-				fetchPromise = fetchUtils.getJSON(url, fetchParams);
-				break;
-			case "HTML":
-			default:
-				fetchPromise = fetchUtils.getHTML(url, fetchParams);
-				break;
-		}
-		
-		fetchPromise.then(function(data) {
-			displayResponse(demoEl, data, type);
-		});
-	}
+            fetchParams.method = fetchParams.method ? fetchParams.method : 'get';
 
-	function displayResponse(demoEl, data, type) {
-		let responseEl = demoEl.querySelector('.js-response');
-		let codeEl = responseEl.querySelector('.js-response-data');
-		let formattedData;
+            let wrappedFetch = invokeFetch(url, fetchParams);
 
-		switch(type) {
-			case "JSON": 
-				formattedData = JSON.stringify(data);
-				break;
-			case "HTML":
-			default:
-				formattedData = data;
-				break;
-		}
-		codeEl.textContent = formattedData;
+            let timeoutId = setTimeout(function () {
+                wrappedFetch.reject(new Error('Load timeout for resource: ' + url));
+            }, settings.timeout);
 
-		responseEl.classList.remove('is-inactive');
-	}
+            return wrappedFetch.promise.then(function(response) {
+                clearTimeout(timeoutId);
+                if (fireCallback === true) {
+                    fireCallbackFn(response);
+                }
+                return response;
+            });
+        }
 
-	init();
-}
+        function fireCallbackFn(response) {
+            if (callback !== null) {
+                callback(response);
+            }
+        }
 
-export default main();
+        function setCallback(callbackFn = null) {
+            if (callbackFn) {
+                callback = callbackFn;
+            }
+        }
+
+        function setOptions(options = null) {
+            if (options !== null && typeof options === 'object') {
+                settings = Object.assign({}, defaults, options);
+            }
+        }
+
+        return {
+            getJSON: getJSON,
+            getHTML: getHTML,
+            fetch: genericFetch,
+            setCallback: setCallback,
+            setOptions: setOptions
+        };
+
+    };
+
+    var instance = fetchUtils();
+
+    return instance;
+
+}());
