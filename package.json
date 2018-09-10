@@ -25,7 +25,7 @@
   },
   "bugs": "https://github.com/DEGJS/fetchUtils/issues",
   "scripts": {
-    "build-demo": "cd demo/js && rollup ../../src/fetchUtils.js --file src/main.js --format iife --output.name main.js",
+    "build-demo": "cd demo/js && rollup ../../src/fetchUtils.js --file main.js --format iife --output.name main.js",
     "deploy-demo": "./deploy-demo.sh"
   },
   "publishConfig": { "access": "public" }
