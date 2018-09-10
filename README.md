@@ -1,4 +1,6 @@
 # fetchUtils
+[![Build Status](https://travis-ci.org/DEGJS/fetchUtils.svg?branch=master)](https://travis-ci.org/DEGJS/fetchUtils)
+
 FetchUtils is a utility module that adds the following features to the Javascript [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API):
 + Request timeouts, which the Fetch API currently lacks
 + Helper methods for requesting and parsing a JSON- or HTML-encoded response data from an endpoint 
@@ -7,8 +9,12 @@ FetchUtils is a utility module that adds the following features to the Javascrip
 You can view a demo of fetchUtils [here](http://degjs.github.io/fetchUtils/).
 
 ## Install
-FetchUtils is an ES6 module. Consequently, you'll need an ES6 transpiler ([Babel](https://babeljs.io) is a nice one) and a module loader ([SystemJS](https://github.com/systemjs/systemjs) will do the job) as part of your Javascript workflow.
+As of version 3.0.0, fetchUtils is on NPM and can be installed with 
+```
+npm install @degjs/fetch-utils
+```
 
+For version 2.1.3 or earlier or a legacy project,
 If you're already using the [JSPM package manager](http://jspm.io) for your project, you can install fetchUtils with the following command:
 
 ```
