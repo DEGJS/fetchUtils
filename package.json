@@ -1,6 +1,6 @@
 {
-  "name": "fetchUtils",
-  "version": "2.1.3",
+  "name": "@degjs/fetch-utils",
+  "version": "3.0.0",
   "description": "A utility library for using the Javascript Fetch API.",
   "keywords": [
     "fetch",
@@ -28,6 +28,7 @@
     "build-demo": "cd demo/js && jspm install github:DEGJS/fetchUtils && jspm bundle-sfx main main.js --skip-source-maps",
     "deploy-demo": "./deploy-demo.sh"
   },
+  "publishConfig": { "access": "public" },
   "devDependencies": {
     "jspm": "^0.16.42"
   },
