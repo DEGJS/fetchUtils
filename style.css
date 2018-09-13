@@ -1,0 +1,55 @@
+body {
+	font-size: 100%;
+	line-height: 1.4;
+	font-family: Arial, sans-serif;
+	color: #333;
+	margin: 1.5em;
+}
+
+
+h1 {
+	font-size: 2.5em;
+	margin: 0 0 1em 0;
+}
+
+h2 {
+	font-size: 1.5em;
+	margin: 0 0 .5em 0;
+}
+
+h3 {
+	margin: 0 0 .5em 0;
+	font-size: 1.125em;
+}
+
+.page {
+	max-width: 44em;
+}
+
+.demo {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	padding: 1.5em 1em;
+	margin: 0 0 2em 0;
+}
+
+.demo__response {
+	margin: 1.5em 0 0 0;
+}
+
+.demo__response.is-inactive {
+	display: none;
+}
+
+.code {
+	margin: 0;
+	background-color: #fcfcfc;
+	overflow: auto;
+	max-height: 6em;
+	padding: .5em;
+}
+
+.code--sample {
+	height: auto;
+	margin-bottom: 1em;
+}

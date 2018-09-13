@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FetchUtils Demo</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="page">
+      <h1>fetchUtils Demo</h1>
+
+      <div class="demo" data-url="endpoint/players.html" data-method="GET" data-type="HTML">
+        <h2>GET/HTML</h2>
+        <pre class="code code--sample"><code>fetchUtils.getHTML(url, { method: 'GET' });</code></pre>
+        <button class="demo__button">Submit Request</button>
+        <div class="demo__response is-inactive js-response">
+          <h3>Response</h3>
+          <pre class="code"><code class="js-response-data"></code></pre>
+        </div>
+      </div>
+
+      <div class="demo" data-url="endpoint/players.json" data-method="GET" data-type="JSON">
+        <h2>GET/JSON with 30-second timeout</h2>
+        <pre class="code code--sample"><code>fetchUtils.getJSON(url, { method: 'GET' }, { timeout: 30000 });</code></pre>
+        <button class="demo__button">Submit Request</button>
+        <div class="demo__response is-inactive js-response">
+          <h3>Response</h3>
+          <pre class="code"><code class="js-response-data"></code></pre>
+        </div>
+      </div>
+
+      <div class="demo" data-url="endpoint/players.json" data-method="POST" data-type="JSON">
+        <h2>POST/JSON</h2>
+         <pre class="code code--sample"><code>fetchUtils.getJSON(url, { method: 'POST' });</code></pre>
+        <button class="demo__button">Submit Request</button>
+        <div class="demo__response is-inactive js-response">
+          <h3>Response</h3>
+          <pre class="code"><code class="js-response-data"></code></pre>
+        </div>
+      </div>
+      
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
