@@ -14,16 +14,10 @@ As of version 3.0.0, fetchUtils is on NPM and can be installed with
 npm install @degjs/fetch-utils
 ```
 
-For version 2.1.3 or earlier or a legacy project,
-If you're already using the [JSPM package manager](http://jspm.io) for your project, you can install fetchUtils with the following command:
-
-```
-$ jspm install github:DEGJS/fetchUtils
-```
 ## Usage
 FetchUtils is a singleton, so it does not need to be instantiated.
 ```js
-import fetchUtils from "DEGJS/fetchUtils";
+import fetchUtils from "@degjs/fetch-utils";
 
 /* Success handler */
 function onSuccess(data) {
