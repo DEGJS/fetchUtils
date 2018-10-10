@@ -1,6 +1,0 @@
-{
-  "name": "fetch-utils-demo",
-  "devDependencies": {
-    "rollup": "^0.65.2"
-  }
-}

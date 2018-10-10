@@ -1,23 +1,17 @@
 language: node_js
 node_js:
 - stable
-script: npm run-script deploy-demo
-env:
-  global:
-  - ENCRYPTION_LABEL: 40aadc6e2684
-  - COMMIT_AUTHOR_EMAIL: heaper@gmail.com
-  - secure: Prp8+SCuik3ioI9XqSjmxjNhXXyQHi1lhuHzcGOs13h+ROz3fgX63l+ew+jZCq7wiIwcgyZv7wMTYAd9ud8N1oAu45SP3Ha+JlevrfqaFxvuXBAknv0IXEvTHiWm14qpJvnKnH5lIZJQX6frsXfTVXd9+7frqMKxIXNgx3YXTZ/V2cnHTGBkM3vJ79XSFyGZZLzw3XJ37Phfaod8mID4afxErCk6NZjzt4kH+gJ1REQyBN+KiwWeqJ0qbm+HsE95uGXXBXSTclJdGnFUm+aCyV7QTCvrbKSP5V9gLAoHk1FWQ3/UsS0Vk6Ieprf0cBckjPLdhBYRhy4IpGQ8QSljULhoeQ8xt27/fzL7RdGs023cb/oIx5TzbNGxDmIOUQP8CazO8HzeNWdpybwdszpMH7HliiG2a4fcG0Xf2NYFWbtoheXdPgwL6ASlABdJ5OucxKGBrsvCO638pPfqOihBBEvHWgMz2a3tSkhV/jo6W4Ce3wxVcPXXFBCH3f1WQpcgkvVqyrB/9j5DqTT5a542npYTO6Ch0rqPTTgXpn4pae6VpnaTHKfBA/6LNHFjeXoKxKZHBLf+1qY8NQa5XlQl79KOvlnb7TeWjd/imr7aUU1xnCeSYtpV5DWxz1Qft/218oJSJdbezXleZxd1MQzy6norwld0QNWQrrIk1fPasCA=
-before_install:
-- npm install -g rollup
-
+before_deploy:
+- |
+  if ! [ "$BEFORE_DEPLOY_RUN" ]; then
+    export BEFORE_DEPLOY_RUN=1;
+    npm run-script build-demo
+  fi
 deploy:
-  - provider: npm
-    email: scheul93@gmail.com
-    api_key:
-      secure: kcdasol/y6KtlpsYh0vevdjmDWEK/XJR+ivBZWJZdCk2Zi0Pxq/HvRd3EXrz+tna8Vo9RZPvoINNGfYFk++vnRvvbWrrDGYzP0nPg7hl9Q5XluLiRFHVGiVbf+cRSsXMDlVtVVhgErRh6bOK5SvC/jVkslqpbjqg7KxvFZifh/yqSIqv5ylQ3Z6RpSj4C8ZjWV1xDEP/8o0c620WId4JFRGffkME+e4hRHY1MGoTkhY0IwctJdf3I9flqoSzCpS6+LAl1ZT/NA7Dlo1TQiXyHTM6F/I1K5BReJTOJTVrQwPjdUTEerWg7im+l1xkKwjyrrJhGs4d0s0NIzlvgJlU4qY1qRgRGrRjef0ljGGtI/fS6IOu300CH+syxTfHGMEP4Mt/7iJcNzij+ztsj3/KhcfB0iiqZUDzz72eKgzaEo7PQxpGtkigBg+7VeWrmrcjuhEdM61DkOofaMk2p/iLuJ96OIrqoonnR1fNCzVPvYHAGBVsp11ZYagxWy6VqCO4GV0V3QnlnTgiisGPF5Vyh6go8l+/581Ua9/dPsQer4ZUDTqOIxcz7ZvXZVzYaWJjBZYLvr46tE3282aAwc++r0YGjvTcBoq1pW5JX5LYLh1ZXyg4Wx6+Ken8cP1X+EI/ukLP11bVFyWGnHz6T0MOPFFUFWCORZZTQkQJy9PYkjM=
-    on:
-      branch: master
-      tags: true
-      repo: DEGJS/fetchUtils
-  - provider: script
-    script: bash deploy-demo.sh
+  provider: npm
+  email: scheul93@gmail.com
+  api_key:
+    secure: Y5Va+kUT0ObgYcsY5VOgfZTdNuBzmAhZYduVbPdmqz5ne4KtGXVsUYMTM64zFFjSgRL9/dCHKdptmQ2Jk0nk8r7XTSWEUQRSrIMgeXxa8DDZnGYQGtgAJnBN2zBO3g03frvClqzV/KHBIub+yNhZHVtShl8cIrhNerTDI3B/isN2Qlh0gqQAeq018s/ujihdzfhMVZWNxDHjfJ3xbuJIhrNCinJ3K8C9GdzgizmHAZmiTNXqgp2QOciC5IqWfzIk7wUZk+P6kOH46bUFjDnxpb47/IqPNOz8Rrsuk+jZMuRg0Oh1uqLrD95+7CRB97O2u9XOfNt9J3jKjL3FIRYAwTMXglVW0NB6Z6Pqc9h27euqcypMfvfObH/yy57Lq3qdI0FpOaG8ZvtSybnirXJ+g+Axh9U5dzbvc+88FRELitb35D6AIE0AZymV/0tJUrghZGqtf2RD06Xpi6M+cKVEsFrvO+0V8rhkRu02EHplGTxWGuuwGs1QpG36CR+obNj9RDXKMl1SbVlMomn35h/1HkvIeaZwMfB7KqaLyXzS0EpSfbdbgVseCWMXw/OXmdNCgY0BwLzRx1RxD50kUdv690EOHugy+QIsvEuJqPQ2enrG1cAkgk0TKDd3QlQe5kTKH/aVQQ36SSYfvJ30ngFtNy1k415ZWjixbmYpTRME7uQ=
+  on:
+    tags: true
+    repo: DEGJS/fetchUtils

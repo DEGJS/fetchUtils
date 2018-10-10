@@ -29,8 +29,26 @@
   "main": "src/fetchUtils.js",
   "bugs": "https://github.com/DEGJS/fetchUtils/issues",
   "scripts": {
-    "build-demo": "cd demo/js && rollup src/main.js --file main.js --format iife --output.name main.js",
+    "build-demo": "rollup --config rollup.config.js && rsync -av --exclude='js/main.js' demo/src/ demo/dist",
     "deploy-demo": "./deploy-demo.sh"
   },
-  "publishConfig": { "access": "public" }
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": ">1%, ie 11"
+        }
+      ]
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
