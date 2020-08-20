@@ -31,7 +31,8 @@ function onError(error) {
 
 /* Perform a GET request with a 30-second timeout and expect a JSON-encoded response */
 let fetchParams = {
-	method: 'GET'
+	method: 'GET',
+	body: {}
 };
 
 let options = {
@@ -66,7 +67,7 @@ The URL of the endpoint. This parameter is required.
 
 #### fetchParams
 Type: `Object`   
-Request options that are passed through to the `fetch()` method. These options correspond to those defined in the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Syntax). This parameter is optional.
+Request options (such as method, body, etc.) that are passed through to the `fetch()` method. These options correspond to those defined in the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Syntax). This parameter is optional.
 
 #### options
 Type: `Object`   
