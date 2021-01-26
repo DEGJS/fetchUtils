@@ -1,6 +1,6 @@
 {
   "name": "@degjs/fetch-utils",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A utility library for using the Javascript Fetch API.",
   "keywords": [
     "fetch",
