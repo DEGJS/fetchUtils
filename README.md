@@ -1,5 +1,4 @@
 # fetchUtils
-![Run Tests](https://github.com/DEGJS/fetchUtils/workflows/Run%20Tests/badge.svg)
 
 FetchUtils is a utility module that adds the following features to the Javascript [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API):
 + Request timeouts, which the Fetch API currently lacks
